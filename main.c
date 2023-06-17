@@ -209,55 +209,66 @@ void ExcluirFila(ptr_node nodeExcluir)
     return;
 }
 
+// Para fazer a inserção na pilha eu "leio" a lista como se fosse uma pilha, assim
+// os valores entram na pilha ao contrário seguindo o exemplo apresentado no mapa
+
+// O mecanismo de navegar pela fila funciona semelhante a uma máquina de escrever
+// onde você digitava até onde queria (indice da fila) depois tinha de retornar para o 
+// começo da folha manualmente, para começar uma nova linha (inserir novo elemento na pilha)
+
 void InserirPilha(ptr_node navegadorPilha, ptr_node navegadorFila, char string[], int stringTamanho)
 {
-    if (stringTamanho != 0)
+    stringTamanho--; // subtraindo 1 pra atribuir ela ao indice
+    for (int i = stringTamanho; i >= 0; i--)
     {
-        for (int i = 0; i < stringTamanho; i++)
-        {
+        if (stringTamanho != 0)
+        {   
+            navegadorFila = fila; // retornando ao primeiro elemento da lista
             char letra;
-            letra = navegadorFila->dado;
-            navegadorFila = navegadorFila->proximo;
+           
+            while (i != navegadorFila->id)
+            {
+                navegadorFila = navegadorFila->proximo; // indo até o ultimo elemento desejado da fila
+            }
 
-            switch (letra)
+            letra = navegadorFila->dado; // pega a letra do elemento da fila para conversão
+
+            switch (letra) // converte as letras
             {
             case 'A':
-                string[i] = 'T'; 
+                letra = 'T'; 
                 break;
 
             case 'C':
-                string[i] = 'G';
+                letra = 'G';
                 break;
 
             case 'T':
-                string[i] = 'A';
+                letra = 'A';
                 break;
             
             case 'G':
-                string[i] = 'C';
+                letra = 'C';
                 break;
             
             default:
                 break;
             }
-        }
 
-        if (navegadorPilha == NULL)
-        {
-            pilha = inicializar(pilha);
-            navegadorPilha = pilha;
-        }
+            if (navegadorPilha == NULL) // incializa a pilha
+            {
+                pilha = inicializar(pilha);
+                navegadorPilha = pilha;
+            }
 
-        while (navegadorPilha->proximo != NULL)
-        {
-            navegadorPilha = navegadorPilha->proximo;
-        }
-
-        for (int i = 0; i < stringTamanho; i++)
-        {   
-            navegadorPilha->id = PilhaID;
-            navegadorPilha->dado = string[i];
-            navegadorPilha->proximo = inicializar(pilha);
+            while (navegadorPilha->proximo != NULL) // vai até o ultimo elemento da pilha
+            {
+                navegadorPilha = navegadorPilha->proximo;
+            }
+               
+            navegadorPilha->id = PilhaID; // por fim, insere todos os dados do elemento
+            navegadorPilha->dado = letra;
+            navegadorPilha->proximo = inicializar(pilha); // inicializa o proximo elemento
             navegadorPilha = navegadorPilha->proximo;
             PilhaID++;
         }
