@@ -63,6 +63,7 @@ void menu()
         printf("2. Excluir dados.\n");
         
         printf("\n >>> ");
+        limparBuffer();
         scanf("%d", &seletor);
 
         switch (seletor)
@@ -310,7 +311,7 @@ void converter(char string[], int stringTamanho)
     for (int i = 0; i < stringTamanho; i++)
     {
         char letra = string[i];
-        switch (letra) // converte as letras
+        switch (letra)
         {
         case 'A':
             string[i] = 'T'; 
