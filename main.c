@@ -62,7 +62,6 @@ void menu()
         printf("2. Excluir dados.\n");
         
         printf("\n >>> ");
-        limparBuffer();
         scanf("%d", &seletor);
 
         switch (seletor)
