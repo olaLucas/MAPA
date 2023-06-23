@@ -244,10 +244,11 @@ void InserirPilha(ptr_node navegadorPilha, char string[], int stringTamanho)
     }
 }
 
-// Para empilhar os valores eu leio a fila na da esquerda pra direita (seguindo o padrão FIFO)
-// porém enchendo o vetor da direita pra esquerda (seguindo o padrão LIFO)
 void empilhar(ptr_node navegadorFila, int stringTamanho)
 {   
+    // Para empilhar os valores eu leio a fila na da esquerda pra direita (seguindo o padrão FIFO)
+    // porém enchendo o vetor da direita pra esquerda (seguindo o padrão LIFO)
+
     int indice = stringTamanho - 1;
     int parada = PilhaQTD;
     char string[stringTamanho];
