@@ -16,8 +16,8 @@ typedef struct node {
 
 ptr_node pilha;
 ptr_node fila;
-int FilaID = 0;
-int PilhaID = 0;
+int FilaQTD = 0;
+int PilhaQTD = 0;
 
 void menu();
 ptr_node inicializar(ptr_node elemento);
@@ -181,7 +181,7 @@ void InserirFila(ptr_node navegador, char string[], int stringTamanho) // variav
         navegador->dado = string[i];
         navegador->proximo = inicializar(fila); // inicializando o próximo elemento
         navegador = navegador->proximo;
-        FilaID++;
+        FilaQTD++;
     }
 }
 
@@ -201,7 +201,7 @@ void ExcluirFila(ptr_node nodeExcluir)
     } 
     else 
     {
-        FilaID--;
+        FilaQTD--;
         nodeExcluir = fila; // guardando o ponteiro para o primeiro elemento
         fila = fila->proximo; // fazendo a lista começar à partir do segundo elemento
         free(nodeExcluir); // excluindo o primeiro elemento
@@ -216,7 +216,7 @@ void ExcluirFila(ptr_node nodeExcluir)
 void empilhar(ptr_node navegadorFila, int stringTamanho)
 {   
     int indice = stringTamanho - 1;
-    int parada = PilhaID;
+    int parada = PilhaQTD;
     char string[stringTamanho];
 
     if (stringTamanho != 0)
@@ -261,7 +261,7 @@ void InserirPilha(ptr_node navegadorPilha, char string[], int stringTamanho)
         navegadorPilha->dado = string[i];
         navegadorPilha->proximo = inicializar(pilha); // inicializa o proximo elemento
         navegadorPilha = navegadorPilha->proximo;
-        PilhaID++;
+        PilhaQTD++;
     }
 }
 
@@ -279,7 +279,7 @@ void ExcluirPilha(ptr_node nodeExcluir)
     } 
     else
     {
-        PilhaID--;
+        PilhaQTD--;
         ptr_node atual;
         while (nodeExcluir->proximo != NULL )
         {
