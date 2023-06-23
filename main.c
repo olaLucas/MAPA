@@ -223,14 +223,14 @@ void empilhar(ptr_node navegadorFila, int stringTamanho)
         if (pilha != NULL)
         {
             int i = 0;
-            for (int i = 0; i < parada; i++)
+            for (int i = 0; i < parada; i++) // vai até o ponto onde os novos elementos foram adicionados
             {
                 navegadorFila = navegadorFila->proximo;
                 i++;
             }
         }
 
-        while (navegadorFila->proximo != NULL)
+        while (navegadorFila->proximo != NULL) // corre pelos novos elementos colocando-os na string à partir do ultimo indice
         {
             string[indice] = navegadorFila->dado;
             navegadorFila = navegadorFila->proximo;
@@ -262,7 +262,6 @@ void InserirPilha(ptr_node navegadorPilha, char string[], int stringTamanho)
         navegadorPilha = navegadorPilha->proximo;
         PilhaID++;
     }
-    
 }
 
 void ExcluirPilha(ptr_node nodeExcluir)
