@@ -19,32 +19,37 @@ ptr_node fila;
 int FilaQTD = 0;
 int PilhaQTD = 0;
 
-void menu();
-ptr_node inicializar(ptr_node elemento);
-void menuInserir();
-void menuExcluir();
-bool verificacao(char string[], int stringTamanho);
-void IDRecount(ptr_node elemento);
 void limparBuffer();
+void menu();
 
+void menuInserir();
+ptr_node inicializar(ptr_node elemento);
+bool verificacao(char string[], int stringTamanho);
 
 // Funções da Fila
 void InserirFila(ptr_node navegador, char string[], int stringTamanho);
 void exibirFila(ptr_node navegador);
 void ExcluirFila(ptr_node nodeExcluir);
 
+
 // Funções da Pilha
 void InserirPilha(ptr_node navegadorPilha, char string[], int stringTamanho);
-void exibirPilha(ptr_node navegador);
-void ExcluirPilha(ptr_node navegador);
 void empilhar(ptr_node navegadorFila, int stringTamanho);
 void converter(char string[], int stringTamanho);
+void exibirPilha(ptr_node navegador);
+void ExcluirPilha(ptr_node navegador);
 
 int main(void)
 {
     menu();
 
     return 0;
+}
+
+void limparBuffer()
+{
+    int c; 
+    while((c = getchar()) != '\n');
 }
 
 void menu()
@@ -90,6 +95,7 @@ void menu()
     }
 }
 
+
 void menuInserir()
 {  
     char string[tamanho];
@@ -124,43 +130,29 @@ void menuInserir()
     } while (verify != true);
 }
 
-void exibirFila(ptr_node navegador)
+ptr_node inicializar(ptr_node elemento)
 {
-    printf("Fila:  [ ");
-    if (navegador != NULL)
-    {
-        while (navegador->proximo != NULL)
-        {
-            printf("%c ", navegador->dado);
-            navegador = navegador->proximo;
-        }
-    } 
-    else 
-    {
-        printf("vazia ");
-    }
-    
-    printf("]\n");
+    elemento = (ptr_node)malloc(sizeof(ptr_node));
+    elemento->dado = '\0';
+    elemento->proximo = NULL;
+
+    return elemento;
 }
 
-void exibirPilha(ptr_node navegador)
-{
-    printf("Pilha: [ ");
-    if (navegador != NULL)
+bool verificacao(char string[], int stringTamanho)
+{   
+    bool setTrue = true;
+    for (int i = 0; i < stringTamanho; i++)
     {
-        while (navegador->proximo != NULL)
+        if (string[i] != 'A' && string[i] != 'C' && string[i] != 'T' && string[i] !='G')
         {
-            printf("%c ", navegador->dado);
-            navegador = navegador->proximo;
+            setTrue = false;
         }
-    } 
-    else 
-    {
-        printf("vazia ");
     }
     
-    printf("]\n");
+    return setTrue;
 }
+
 
 void InserirFila(ptr_node navegador, char string[], int stringTamanho) // variavél utilizada pra navegar na fila
 {
@@ -183,6 +175,25 @@ void InserirFila(ptr_node navegador, char string[], int stringTamanho) // variav
         navegador = navegador->proximo;
         FilaQTD++;
     }
+}
+
+void exibirFila(ptr_node navegador)
+{
+    printf("Fila:  [ ");
+    if (navegador != NULL)
+    {
+        while (navegador->proximo != NULL)
+        {
+            printf("%c ", navegador->dado);
+            navegador = navegador->proximo;
+        }
+    } 
+    else 
+    {
+        printf("vazia ");
+    }
+    
+    printf("]\n");
 }
 
 void ExcluirFila(ptr_node nodeExcluir)
@@ -210,9 +221,31 @@ void ExcluirFila(ptr_node nodeExcluir)
     return;
 }
 
+
+void InserirPilha(ptr_node navegadorPilha, char string[], int stringTamanho)
+{
+    for (int i = 0; i < stringTamanho; i++)
+    {
+        if (navegadorPilha == NULL) // incializa a pilha
+        {
+            pilha = inicializar(pilha);
+            navegadorPilha = pilha;
+        }
+
+        while (navegadorPilha->proximo != NULL) // vai até o ultimo elemento da pilha
+        {
+            navegadorPilha = navegadorPilha->proximo;
+        }
+
+        navegadorPilha->dado = string[i];
+        navegadorPilha->proximo = inicializar(pilha); // inicializa o proximo elemento
+        navegadorPilha = navegadorPilha->proximo;
+        PilhaQTD++;
+    }
+}
+
 // Para empilhar os valores eu leio a fila na da esquerda pra direita (seguindo o padrão FIFO)
 // porém enchendo o vetor da direita pra esquerda (seguindo o padrão LIFO)
-
 void empilhar(ptr_node navegadorFila, int stringTamanho)
 {   
     int indice = stringTamanho - 1;
@@ -243,26 +276,49 @@ void empilhar(ptr_node navegadorFila, int stringTamanho)
     }
 }
 
-void InserirPilha(ptr_node navegadorPilha, char string[], int stringTamanho)
+void converter(char string[], int stringTamanho)
 {
     for (int i = 0; i < stringTamanho; i++)
     {
-        if (navegadorPilha == NULL) // incializa a pilha
+        char letra = string[i];
+        switch (letra)
         {
-            pilha = inicializar(pilha);
-            navegadorPilha = pilha;
-        }
+        case 'A':
+            string[i] = 'T'; 
+            break;
 
-        while (navegadorPilha->proximo != NULL) // vai até o ultimo elemento da pilha
-        {
-            navegadorPilha = navegadorPilha->proximo;
-        }
+        case 'C':
+            string[i] = 'G';
+            break;
 
-        navegadorPilha->dado = string[i];
-        navegadorPilha->proximo = inicializar(pilha); // inicializa o proximo elemento
-        navegadorPilha = navegadorPilha->proximo;
-        PilhaQTD++;
+        case 'T':
+            string[i] = 'A';
+            break;
+        
+        case 'G':
+            string[i] = 'C';
+            break;
+        }
     }
+}
+
+void exibirPilha(ptr_node navegador)
+{
+    printf("Pilha: [ ");
+    if (navegador != NULL)
+    {
+        while (navegador->proximo != NULL)
+        {
+            printf("%c ", navegador->dado);
+            navegador = navegador->proximo;
+        }
+    } 
+    else 
+    {
+        printf("vazia ");
+    }
+    
+    printf("]\n");
 }
 
 void ExcluirPilha(ptr_node nodeExcluir)
@@ -290,59 +346,4 @@ void ExcluirPilha(ptr_node nodeExcluir)
         atual->proximo = nodeExcluir->proximo;
         free(nodeExcluir);
     }
-}
-
-bool verificacao(char string[], int stringTamanho)
-{   
-    bool setTrue = true;
-    for (int i = 0; i < stringTamanho; i++)
-    {
-        if (string[i] != 'A' && string[i] != 'C' && string[i] != 'T' && string[i] !='G')
-        {
-            setTrue = false;
-        }
-    }
-    
-    return setTrue;
-}
-
-void converter(char string[], int stringTamanho)
-{
-    for (int i = 0; i < stringTamanho; i++)
-    {
-        char letra = string[i];
-        switch (letra)
-        {
-        case 'A':
-            string[i] = 'T'; 
-            break;
-
-        case 'C':
-            string[i] = 'G';
-            break;
-
-        case 'T':
-            string[i] = 'A';
-            break;
-        
-        case 'G':
-            string[i] = 'C';
-            break;
-        }
-    }
-}
-
-ptr_node inicializar(ptr_node elemento)
-{
-    elemento = (ptr_node)malloc(sizeof(ptr_node));
-    elemento->dado = '\0';
-    elemento->proximo = NULL;
-
-    return elemento;
-}
-
-void limparBuffer()
-{
-    int c; 
-    while((c = getchar()) != '\n');
 }
